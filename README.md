@@ -6,11 +6,11 @@ O objetivo deste projeto é transformar o conteúdo teórico das disciplinas em 
 
 ## 🧠 O que é IBPS (*Issue-Based Problem Solving*)?
 
-O **IBPS** é uma metodologia estruturada de análise e resolução de problemas originada e difundida na consultoria estratégica (notadamente pela McKinsey & Company). Em vez de estudar ferramentas isoladas ou acumular teoria passiva ("ferver o oceano" de dados), o IBPS parte de uma **pergunta-chave de negócio ou arquitetura** e a decompõe em questões menores e testáveis.
+O **IBPS** é uma metodologia estruturada de análise e resolução de problemas originada e difundida na consultoria estratégica. Em vez de estudar ferramentas isoladas ou acumular teoria passiva ("ferver o oceano" de dados), o IBPS parte de uma **pergunta-chave de negócio ou arquitetura** e a decompõe em questões menores e testáveis.
 
 ### Pilares da Metodologia Aplicados aos Estudos
 
-1. **Definição do Problema Central (*The Core Issue*):** Qual dor real de engenharia, produto ou time essa disciplina resolve? (Baseado no framework *SCQ - Situation, Complication, Question* de Barbara Minto).
+1. **Definição do Problema Central (*The Core Issue*):** Qual dor real de engenharia, produto ou time essa disciplina resolve?
 
 2. **Decomposição MECE (*Mutually Exclusive, Collectively Exhaustive*):** Quebra do problema em pilares independentes que cobrem todo o escopo sem sobreposição ou lacunas.
 
