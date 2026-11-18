@@ -2,7 +2,7 @@
 
 Este repositório reúne meus estudos, anotações e guias práticos da **Pós-Graduação em Tech Lead**, estruturados sob a ótica do **IBPS (*Issue-Based Problem Solving*)**.
 
-O objetivo deste projeto é transformar o conteúdo teórico das disciplinas em um **repertório acionável de tomada de decisão**, conectando conceitos de arquitetura, engenharia de software e liderança técnica diretamente aos problemas reais do dia a dia.
+O objetivo deste projeto é transformar o conteúdo teórico das disciplinas e o compilado dos entregáveis em um **repertório acionável de tomada de decisão**, conectando conceitos de arquitetura, engenharia de software e liderança técnica diretamente aos problemas reais do dia a dia.
 
 ## 🧠 O que é IBPS (*Issue-Based Problem Solving*)?
 
