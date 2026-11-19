@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tech Lead Playbook — Disciplina 01: Liderança e Gestão de Projetos</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #000000;
+      color: #e8e8e8;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      padding: 60px 40px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Card de Marca no Topo */
+    .brand-header {
+      background: linear-gradient(135deg, #0d0d0d 0%, #1a0a00 100%);
+      border: 1px solid rgba(236, 112, 0, 0.35);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 36px;
+    }
+
+    .brand-pretitle {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: #EC7000;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .brand-title {
+      font-size: 42px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .brand-underline {
+      width: 64px;
+      height: 4px;
+      background-color: #EC7000;
+      border-radius: 2px;
+    }
+
+    /* Cabeçalho Principal */
+    header {
+      margin-bottom: 32px;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+
+    .sprint-id {
+      font-size: 20px;
+      color: #6db3f2;
+      font-weight: 400;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #888888;
+      font-weight: 300;
+    }
+
+    /* Card de Destaque / Observação (Questão Central) */
+    .observation {
+      background-color: #1a1305;
+      border: 1px solid rgba(236, 112, 0, 0.25);
+      border-left: 3px solid #EC7000;
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin-bottom: 36px;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      user-select: none;
+    }
+
+    .observation:hover {
+      transform: translateX(4px);
+    }
+
+    .observation-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      color: #f0b429;
+      margin-bottom: 12px;
+    }
+
+    .observation-text {
+      font-style: italic;
+      font-size: 16px;
+      color: #f3e8d2;
+      line-height: 1.55;
+    }
+
+    .observation.active {
+      background-color: #003D7F;
+      border-color: #3385ff;
+      border-left-color: #6db3f2;
+      box-shadow: 0 8px 24px rgba(0, 61, 127, 0.35);
+    }
+
+    .observation.active .observation-header,
+    .observation.active .observation-text {
+      color: #ffffff;
+    }
+
+    /* Lista de Cards */
+    .activities-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .activity {
+      display: flex;
+      align-items: flex-start;
+      background-color: #0d0d0d;
+      border: 1px solid #1f1f1f;
+      border-left-width: 3px;
+      border-radius: 10px;
+      padding: 22px 24px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      user-select: none;
+    }
+
+    .activity:not(.active):hover {
+      background-color: #141414;
+      transform: translateX(4px);
+    }
+
+    .activity-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .activity-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .activity-tag-app {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 3px 8px;
+      border-radius: 5px;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .activity-status {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #f0b429;
+      transition: color 0.2s ease;
+    }
+
+    .activity-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+      line-height: 1.35;
+      transition: color 0.2s ease;
+    }
+
+    .activity-subtitle {
+      font-size: 14.5px;
+      color: #a8a8a8;
+      padding-left: 18px;
+      position: relative;
+      line-height: 1.6;
+      transition: color 0.2s ease;
+    }
+
+    .activity-subtitle::before {
+      content: "↳";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #666666;
+      transition: color 0.2s ease;
+    }
+
+    .activity-subtitle strong {
+      color: #d8d8d8;
+      font-weight: 500;
+    }
+
+    /* Cores por Pilar IBPS */
+    /* 1. Liderança & Time (Azul #6db3f2) */
+    .subject-lideranca {
+      border-left-color: #6db3f2;
+    }
+    .tag-lideranca {
+      color: #6db3f2;
+      background-color: rgba(109, 179, 242, 0.12);
+      border-color: rgba(109, 179, 242, 0.3);
+    }
+
+    /* 2. Escopo & Riscos (Verde #5dd39e) */
+    .subject-escopo {
+      border-left-color: #5dd39e;
+    }
+    .tag-escopo {
+      color: #5dd39e;
+      background-color: rgba(93, 211, 158, 0.12);
+      border-color: rgba(93, 211, 158, 0.3);
+    }
+
+    /* 3. Ferramentas & BI (Roxo #c084fc) */
+    .subject-ferramentas {
+      border-left-color: #c084fc;
+    }
+    .tag-ferramentas {
+      color: #c084fc;
+      background-color: rgba(192, 132, 252, 0.12);
+      border-color: rgba(192, 132, 252, 0.3);
+    }
+
+    /* 4. Conflitos & Influência (Vermelho #ff8585) */
+    .subject-conflitos {
+      border-left-color: #ff8585;
+    }
+    .tag-conflitos {
+      color: #ff8585;
+      background-color: rgba(255, 133, 133, 0.12);
+      border-color: rgba(255, 133, 133, 0.3);
+    }
+
+    /* 5. Métricas & Playbook (Âmbar #f0b429) */
+    .subject-playbook {
+      border-left-color: #f0b429;
+    }
+    .tag-playbook {
+      color: #f0b429;
+      background-color: rgba(240, 180, 41, 0.12);
+      border-color: rgba(240, 180, 41, 0.3);
+    }
+
+    /* Estado Ativo do Card (.active) */
+    .activity.active {
+      background-color: #EC7000;
+      border-color: #ff8c1a;
+      box-shadow: 0 8px 28px rgba(236, 112, 0, 0.35);
+    }
+
+    .activity.active .activity-title,
+    .activity.active .activity-status,
+    .activity.active .activity-subtitle,
+    .activity.active .activity-subtitle strong,
+    .activity.active .activity-subtitle::before {
+      color: #ffffff;
+    }
+
+    .activity.active .activity-tag-app {
+      color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+
+    /* Divisor entre Grupos */
+    hr.divider {
+      border: none;
+      height: 1px;
+      background-color: #2a2a2a;
+      margin: 14px 0;
+    }
+
+    /* Seção de Glossário */
+    .glossary-section {
+      margin-top: 40px;
+      background-color: #0d0d0d;
+      border: 1px solid #1f1f1f;
+      border-top: 3px solid #EC7000;
+      border-radius: 12px;
+      padding: 28px 28px;
+    }
+
+    .glossary-header {
+      margin-bottom: 20px;
+    }
+
+    .glossary-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .glossary-desc {
+      font-size: 13.5px;
+      color: #888888;
+    }
+
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .glossary-item {
+      background-color: #141414;
+      border: 1px solid #242424;
+      border-radius: 8px;
+      padding: 14px 16px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .glossary-item:hover {
+      border-color: rgba(236, 112, 0, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .glossary-term {
+      font-size: 14px;
+      font-weight: 700;
+      color: #EC7000;
+      margin-bottom: 6px;
+      letter-spacing: 0.3px;
+    }
+
+    .glossary-definition {
+      font-size: 13.5px;
+      color: #b8b8b8;
+      line-height: 1.5;
+    }
+
+    /* Rodapé */
+    footer {
+      margin-top: 48px;
+      text-align: center;
+      font-size: 13px;
+      color: #666666;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      body {
+        padding: 32px 18px;
+      }
+
+      .brand-header {
+        padding: 20px 22px;
+      }
+
+      .brand-title {
+        font-size: 32px;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .sprint-id {
+        font-size: 17px;
+      }
+
+      .subtitle {
+        font-size: 15px;
+      }
+
+      .observation-header {
+        font-size: 13.5px;
+      }
+
+      .activity {
+        padding: 18px 16px;
+      }
+
+      .activity-title {
+        font-size: 15px;
+      }
+
+      .activity-subtitle {
+        font-size: 13.5px;
+      }
+
+      .glossary-section {
+        padding: 22px 18px;
+      }
+
+      .glossary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Card de Marca -->
+    <div class="brand-header">
+      <div class="brand-pretitle">TECH LEAD PLAYBOOK &bull; APRENDIZADO BASEADO EM IBPS</div>
+      <div class="brand-title">Liderança e Gestão de Projetos</div>
+      <div class="sprint-id">Guia IBPS (SCQ &bull; MECE &bull; Hypothesis-Driven)</div>
+      <div class="subtitle">Pós-Graduação em Tech Lead &bull; Repertório Acionável de Tomada de Decisão</div>
+      <div class="brand-underline"></div>
+    </div>
+
+    <!-- Questão Central (The Core Issue) -->
+    <div class="observation" id="core-issue" title="Clique para destacar/alternar estado">
+      <div class="observation-header">
+        <span>&#127919; QUESTÃO CENTRAL (THE CORE ISSUE)</span>
+      </div>
+      <div class="observation-text">
+        &ldquo;Como um Tech Lead deve conduzir projetos de software da concepção à entrega, alinhando maturidade da equipe, governança de escopo/riscos, ecossistema de ferramentas e autonomia para garantir previsibilidade e geração contínua de valor?&rdquo;
+      </div>
+    </div>
+
+    <!-- Lista de Cards IBPS -->
+    <main class="activities-list">
+      <!-- GRUPO 1: LIDERANÇA & TIME -->
+      <article class="activity subject-lideranca">
+        <div class="activity-content">
+          <div class="activity-meta">
+            <span class="activity-tag-app tag-lideranca">[1. LIDERANÇA &amp; TIME]</span>
+            <span class="activity-status">Hipótese de Trabalho</span>
+          </div>
+          <h2 class="activity-title">Calibragem Situacional &amp; Management 3.0</h2>
+          <p class="activity-subtitle">
+            Evoluir do comando-controle (1.0) para autonomia guiada (3.0) conforme a maturidade técnica e emocional da equipe aumenta a velocidade decisória sem perder alinhamento estratégico.<br />
+            <strong>Anti-padrões:</strong> microgestão em seniores sob pressão ou <em>laissez-faire</em> em juniores em domínios complexos.
+          </p>
+        </div>
+      </article>
+
+      <!-- CARDS 2 + 3 UNIDOS -->
+      <article class="activity subject-lideranca">
+        <div class="activity-content">
+          <div class="activity-meta">
+            <span class="activity-tag-app tag-lideranca">[1. LIDERANÇA &amp; TIME]</span>
+            <span class="activity-status">Matriz Prática &amp; Evolução da Gestão</span>
+          </div>
+          <h2 class="activity-title">Evolução da Gestão (1.0 a 5.0) e Matriz de Estilos por Cenário</h2>
+          <p class="activity-subtitle">
+            <strong>Da hierarquia à autonomia:</strong> a gestão evoluiu do comando rígido (<strong>1.0</strong>) e participativo tradicional (<strong>2.0</strong>) para a auto-organização e motivação intrínseca (<strong>3.0</strong>, com Kudo Cards, Delegation Poker e OKRs), avançando para decisões orientadas a dados (<strong>4.0</strong>) e foco na experiência humana equilibrando performance e cuidado (<strong>5.0</strong>).<br />
+            <strong>Na prática do Tech Lead:</strong> <strong>Time sênior em prazo apertado:</strong> Transformacional + Empoderamento (cortar para MVP e blindar agenda) &bull; <strong>Time inexperiente em IA/Big Data:</strong> Situacional Diretiva/Orientadora &bull; <strong>Time com conflitos (Cloud):</strong> Democrático + Escuta Ativa &bull; <strong>Time inovando (Startups/App):</strong> OKRs + Moving Motivators + Delegation Poker.
+          </p>
+        </div>
+      </article>
+
+      <hr class="divider" />
+
+      <!-- GRUPO 2: ESCOPO & RISCOS -->
+      <!-- CARD 4 REESCRITO PARA INICIANTES COMO TECH LEAD -->
+      <article class="activity subject-escopo">
+        <div class="activity-content">
+          <div class="activity-meta">
+            <span class="activity-tag-app tag-escopo">[2. ESCOPO &amp; RISCOS]</span>
+            <span class="activity-status">Guia para Novos Tech Leads</span>
+          </div>
+          <h2 class="activity-title">Como Organizar o Projeto sem Perder o Controle (EAP e Marcos)</h2>
+          <p class="activity-subtitle">
+            Quebrar um projeto grande em blocos pequenos e fáceis de acompanhar (a chamada <strong>EAP</strong> ou lista de entregas) e definir pontos de checagem claros (<strong>Milestones</strong>). Na prática, isso funciona como degraus: primeiro fechamos o que precisa ser feito (M1), depois entregamos o básico funcionando (M2), adicionamos funcionalidades inteligentes (M3), testamos tudo com calma (M4) e colocamos no ar (M5). Para estimar prazos sem chute, compare o tamanho das tarefas como roupas (P, M, G) junto com o time.<br />
+            <strong>Erro comum:</strong> aceitar pedidos extras no meio do caminho sem avisar que o prazo vai aumentar ou que outra entrega precisará sair.
+          </p>
+        </div>
+      </article>
+
+      <!-- CARD 5 REESCRITO COM SITUAÇÕES DE RISCO -->
+      <article class="activity subject-escopo">
+        <div class="activity-content">
+          <div class="activity-meta">
+            <span class="activity-tag-app tag-escopo">[2. ESCOPO &amp; RISCOS]</span>
+            <span class="activity-status">Protocolo de Riscos na Prática</span>
+          </div>
+          <h2 class="activity-title">Como Agir Diante de Riscos Reais do Dia a Dia</h2>
+          <p class="activity-subtitle">
+            <strong>Mitigar (reduzir o estrago):</strong> se um serviço externo como um gateway de pagamento oscilar no lançamento, crie uma fila para processar os pedidos aos poucos sem travar a compra do cliente; se surgirem ideias novas no meio da sprint, isole-as para uma versão futura.<br />
+            <strong>Evitar (agir antes que aconteça):</strong> em projetos onde o time de front-end e back-end trabalham separados e há risco de as telas não conversarem com o servidor, alinhe os formatos de dados antes de programar e faça testes integrados cedo.<br />
+            <strong>Aceitar (conviver com plano B):</strong> se um recurso de recomendação por IA ainda tem poucos dados de usuários no início, lance uma versão simples que aprende com o tempo; se entrar gente nova no time, tenha um guia rápido de boas-vindas para acelerar a adaptação.
+          </p>
+        </div>
+      </article>
+
+      <hr class="divider" />
+
+      <!-- GRUPO 3: FERRAMENTAS & BI -->
+      <!-- CARD 6 REESCRITO COM SITUAÇÕES E CONTEXTOS DE USO -->
+      <article class="activity subject-ferramentas">
+        <div class="activity-content">
+          <div class="activity-meta">
+            <span class="activity-tag-app tag-ferramentas">[3. FERRAMENTAS &amp; BI]</span>
+            <span class="activity-status">Contextos de Uso</span>
+          </div>
+          <h2 class="activity-title">Quando Cada Combinação de Ferramentas Faz Sentido</h2>
+          <p class="activity-subtitle">
+            <strong>Startup ou App novo (ambiente de mudança rápida e time distribuído):</strong> faz sentido combinar <strong>Miro + Trello + Slack + Power BI</strong>. O Trello é leve, visual e acessível de qualquer lugar do mundo para equipes sem fronteiras de localidade; o Miro ajuda a desenhar ideias rápido quando o produto muda toda semana e o Slack mantém todos conectados em tempo real.<br />
+            <strong>Empresa grande ou ERP (múltiplos times, fornecedores e prazos rígidos):</strong> exige <strong>Jira + Confluence + Teams + Power BI</strong>, pois o Jira rastreia dependências complexas entre vários setores e gera relatórios gerenciais confiáveis.<br />
+            <strong>Produto com suporte ativo e base de conhecimento (ex.: plataforma educacional):</strong> <strong>Jira + Confluence + JSM</strong> unem o atendimento ao usuário diretamente à fila dos desenvolvedores.<br />
+            <strong>Operação corporativa integrada (Dev, Marketing e Suporte juntos):</strong> <strong>Azure DevOps + Teams + Power BI</strong> centralizam código, tarefas e comunicação num único ecossistema.
+          </p>
+        </div>
+      </article>
+
+      <hr class="divider" />
+
+      <!-- GRUPO 4: CONFLITOS & INFLUÊNCIA -->
+      <!-- CARDS 7 + 8 UNIDOS -->
+      <article class="activity subject-conflitos">
+        <div class="activity-content">
+          <div class="activity-meta">
+            <span class="activity-tag-app tag-conflitos">[4. CONFLITOS &amp; INFLUÊNCIA]</span>
+            <span class="activity-status">Liderança &amp; Mediação</span>
+          </div>
+          <h2 class="activity-title">Influência sem Autoridade Formal &amp; Resolução de Conflitos (CNV)</h2>
+          <p class="activity-subtitle">
+            <strong>Construindo confiança:</strong> como o Tech Lead geralmente não é o chefe hierárquico do time, sua influência nasce da credibilidade técnica, escuta ativa, transparência e de envolver os desenvolvedores nas decisões de arquitetura.<br />
+            <strong>Resolvendo atritos na prática:</strong> ao perceber tensão por prazos, recursos ou falhas de comunicação, identifique a causa-raiz e conduza a conversa com o <strong>Roteiro CNV </strong> em 4 passos: <strong>1. Observação</strong> (relatar o fato objetivo sem julgamento) &rarr; <strong>2. Sentimento</strong> (mostrar o impacto no time) &rarr; <strong>3. Necessidade</strong> (explicar o objetivo do projeto em risco) &rarr; <strong>4. Pedido</strong> (propor uma ação concreta e negociável).
+          </p>
+        </div>
+      </article>
+
+      <hr class="divider" />
+
+      <!-- GRUPO 5: MÉTRICAS & PLAYBOOK -->
+      <article class="activity subject-playbook">
+        <div class="activity-content">
+          <div class="activity-meta">
+            <span class="activity-tag-app tag-playbook">[5. MÉTRICAS &amp; PLAYBOOK]</span>
+            <span class="activity-status">Validação</span>
+          </div>
+          <h2 class="activity-title">Critérios de Validação &amp; Evidências (KPIs)</h2>
+          <p class="activity-subtitle">
+            <strong>Previsibilidade:</strong> aderência aos Milestones, itens concluídos na Sprint e estabilidade do Burndown &bull; <strong>Saúde:</strong> taxa de <em>scope creep</em> e defeitos pós-release &bull; <strong>Autonomia:</strong> evolução nos níveis do Delegation Poker, frequência de feedbacks e redução do tempo de <em>ramp-up</em>.
+          </p>
+        </div>
+      </article>
+
+      <!-- CARDS 10 + 11 + 12 UNIDOS COM ISHIKAWA E RESUMO GERAL -->
+      <article class="activity subject-playbook">
+        <div class="activity-content">
+          <div class="activity-meta">
+            <span class="activity-tag-app tag-playbook">[5. MÉTRICAS &amp; PLAYBOOK]</span>
+            <span class="activity-status">Síntese &amp; Guia Rápido</span>
+          </div>
+          <h2 class="activity-title">Playbook Consolidado do Tech Lead: Do Kickoff à Gestão de Crises e Pessoas</h2>
+          <p class="activity-subtitle">
+            <strong>1. Ao iniciar um projeto:</strong> não pule direto para o código; alinhe o escopo, mapeie stakeholders, quebre as entregas em <strong>EAP</strong>, defina marcos (<strong>Milestones</strong>) e mapeie os riscos iniciais com planos de mitigação.<br />
+            <strong>2. Diante de prazos apertados, falhas ou mudanças de escopo:</strong> investigue a causa-raiz real do problema usando o <strong>Diagrama de Ishikawa (Espinha de Peixe)</strong> para não tratar apenas sintomas; em seguida, faça um alinhamento transparente, recorte o escopo para o <strong>MVP</strong>, isole demandas extras para versões futuras e blinde o time de reuniões desnecessárias.<br />
+            <strong>3. Com times novos ou desmotivados:</strong> rode dinâmicas de <strong>Moving Motivators</strong> para entender o que engaja cada pessoa e utilize o <strong>Delegation Poker</strong> para deixar claro o que o time decide com autonomia, o que consulta e o que apenas informa.
+          </p>
+        </div>
+      </article>
+    </main>
+
+    <!-- Seção de Glossário -->
+    <section class="glossary-section" aria-labelledby="glossary-heading">
+      <div class="glossary-header">
+        <h2 class="glossary-title" id="glossary-heading">&#128214; Glossário</h2>
+        <p class="glossary-desc">Conceitos, siglas e ferramentas-chave utilizados neste guia de estudo.</p>
+      </div>
+      <div class="glossary-grid">
+        <div class="glossary-item">
+          <div class="glossary-term">SCQ (Situation, Complication, Question)</div>
+          <div class="glossary-definition">Estrutura narrativa usada para contextualizar problemas: apresenta o cenário atual (Situação), o obstáculo que surgiu (Complicação) e a pergunta que precisa ser respondida (Questão).</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">MECE (Mutually Exclusive, Collectively Exhaustive)</div>
+          <div class="glossary-definition">Princípio de organização lógica onde os tópicos não se sobrepõem (mutuamente exclusivos) e, juntos, cobrem todo o problema sem deixar lacunas (coletivamente exaustivos).</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">Hypothesis-Driven (Orientado a Hipóteses)</div>
+          <div class="glossary-definition">Abordagem de investigação que parte de uma suposição estruturada sobre a causa ou solução de um problema para testar e validar apenas os dados necessários, evitando desperdício de tempo.</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">EAP e WBS (Work Breakdown Structure)</div>
+          <div class="glossary-definition">Estrutura Analítica do Projeto (em português e inglês): técnica de dividir um projeto complexo em pacotes de trabalho menores, visuais e fáceis de gerenciar e estimar.</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">MVP (Minimum Viable Product)</div>
+          <div class="glossary-definition">Produto Mínimo Viável: a versão mais simples de uma solução que já entrega valor real ao usuário e permite validar hipóteses com o menor esforço e prazo possíveis.</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">ERP (Enterprise Resource Planning)</div>
+          <div class="glossary-definition">Sistema integrado de gestão empresarial que unifica dados e processos de diferentes áreas da empresa (financeiro, estoque, RH, vendas) em uma única plataforma.</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">JSM (Jira Service Management)</div>
+          <div class="glossary-definition">Ferramenta da Atlassian voltada para gestão de atendimento, suporte e incidentes, conectando chamados de usuários diretamente ao fluxo de trabalho da equipe de desenvolvimento.</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">Roteiro CNV (Comunicação Não-Violenta)</div>
+          <div class="glossary-definition">Técnica de comunicação empática baseada em 4 etapas — Observação, Sentimento, Necessidade e Pedido — usada para resolver conflitos e dar feedbacks sem julgamentos ou acusações.</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">KPIs (Key Performance Indicators)</div>
+          <div class="glossary-definition">Indicadores-Chave de Desempenho: métricas quantitativas usadas para acompanhar o progresso, a eficiência e o sucesso de um projeto, processo ou equipe.</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">Scope Creep (Aumento Descontrolado de Escopo)</div>
+          <div class="glossary-definition">Fenômeno em que novos requisitos e alterações vão sendo adicionados ao projeto ao longo da execução sem revisão formal de prazo, custo ou recursos, gerando atrasos.</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">Delegation Poker</div>
+          <div class="glossary-definition">Dinâmica do Management 3.0 que utiliza cartas de 1 a 7 para alinhar entre líder e equipe qual é o nível exato de autonomia em cada tipo de decisão (desde "o líder decide" até "o time delega totalmente").</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">Ramp-up</div>
+          <div class="glossary-definition">Período de adaptação e curva de aprendizado que um novo integrante leva desde sua entrada no time até atingir plena produtividade e autonomia técnica no projeto.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+      Disciplina 01 &bull; 8 cards de estudo + Glossário &bull; Metodologia IBPS (Minto, Rasiel, Chevallier &amp; Accelerate)
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Interação nos cards de estudo (.activity)
+      const cards = document.querySelectorAll(".activity");
+      cards.forEach((card) => {
+        card.addEventListener("click", () => {
+          card.classList.toggle("active");
+        });
+
+        // Previne propagação caso links sejam adicionados futuramente
+        const links = card.querySelectorAll("a");
+        links.forEach((link) => {
+          link.addEventListener("click", (e) => {
+            e.stopPropagation();
+          });
+        });
+      });
+
+      // Interação no card da Questão Central (.observation)
+      const observationCard = document.getElementById("core-issue");
+      if (observationCard) {
+        observationCard.addEventListener("click", () => {
+          observationCard.classList.toggle("active");
+        });
+      }
+    });
+  </script>
+</body>
+</html>
