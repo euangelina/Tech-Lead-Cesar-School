@@ -51,8 +51,10 @@ Cada módulo deste repositório segue rigorosamente o mesmo template para facili
 ├── README.md
 └── modulos/
     ├── 01-lideranca-e-gestao-de-projetos/
+    |   ├── guia-ibps.html
     │   └── guia-ibps.md
     ├── 02-agilidade-e-gestao-de-equipes/
+    |   ├── guia-ibps.html
     │   └── guia-ibps.md
     └── ...
 ```
